@@ -19,6 +19,7 @@ export class AuthService {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 // call another method
+                await this.account.deleteSessions();
                 return this.login({email, password});
             } else {
                return  userAccount;
@@ -30,7 +31,12 @@ export class AuthService {
 
     async login({ email, password }) {
         try {
+                    // Ensure no active session exists before login
+
+            await this.account.deleteSessions();
+
             return await this.account.createEmailPasswordSession(email, password);
+            
         } catch (error) {
             throw error;
         }
@@ -38,18 +44,19 @@ export class AuthService {
 
     async getCurrentUser() {
         try {
-            return await this.account.get();
+            const user = await this.account.get();
+            return user; // Return the user if a session exists
         } catch (error) {
-            console.log("Appwrite serive :: getCurrentUser :: error", error);
+            console.log("Appwrite service :: getCurrentUser :: error", error);
+            return null;
         }
-
-        return null;
     }
 
     async logout() {
 
         try {
             await this.account.deleteSessions();
+            
         } catch (error) {
             console.log("Appwrite serive :: logout :: error", error);
         }
