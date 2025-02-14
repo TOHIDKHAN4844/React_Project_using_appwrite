@@ -32,7 +32,7 @@ export class Service{
           );
         } catch (error) {
           console.log("Appwrite service :: createPost :: error", error.message);
-          return false;
+          return null;
         }
       }
       

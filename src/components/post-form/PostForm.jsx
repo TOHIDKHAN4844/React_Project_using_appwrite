@@ -45,7 +45,7 @@ export default function PostForm({ post }) {
           content: data.content,
           featuredImage: file.$id,
           status: data.status,
-          userId: userData.$id, });
+          userId: userData?.$id, });
 
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
