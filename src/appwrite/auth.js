@@ -19,7 +19,7 @@ export class AuthService {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 // call another method
-                await this.account.deleteSessions();
+             //   await this.account.deleteSessions();
                 return this.login({email, password});
             } else {
                return  userAccount;
@@ -33,7 +33,7 @@ export class AuthService {
         try {
                     // Ensure no active session exists before login
 
-            await this.account.deleteSessions();
+           // await this.account.deleteSessions();
 
             return await this.account.createEmailPasswordSession(email, password);
             
